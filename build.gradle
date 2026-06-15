@@ -1,0 +1,26 @@
+plugins {
+    // Le dice a Gradle que este es un proyecto Java
+    id 'java'
+}
+
+repositories {
+    // De dónde va a descargar las librerías (Internet)
+    mavenCentral()
+}
+
+dependencies {
+    // Descarga JUnit 5 exclusivamente para la carpeta 'test'
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.9.2'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.9.2'
+}
+
+test {
+    // Le indicamos que use la plataforma de JUnit
+    useJUnitPlatform()
+    
+    // Configuración para que la consola te muestre detalles lindos y claros
+    testLogging {
+        events "passed", "skipped", "failed"
+        showStandardStreams = true
+    }
+}
