@@ -22,8 +22,14 @@ public class ArbolBinario {
      * EJERCICIO 1: Retornar true si existe al menos un valor negativo.
      * ==================================================================== */
     public boolean tieneNegativo() {
-        // TODO: Tu código aquí (te sugiero llamar a un método privado recursivo)
-        return false; 
+        return tieneNegativo(this.raiz);
+    }
+
+    private boolean tieneNegativo(Nodo nodo) {
+        if (nodo == null) {
+            return false;
+        }
+        return nodo.getValor() < 0 || tieneNegativo(nodo.getIzquierdo()) || tieneNegativo(nodo.getDerecho());
     }
 
     /* ====================================================================

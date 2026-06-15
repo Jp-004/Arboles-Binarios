@@ -1,22 +1,30 @@
 import java.util.Arrays;
 import java.util.List;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
 public class ArbolBinarioTest {
 
-    public static void main(String[] args) {
-        System.out.println("=== INICIANDO SUITE DE TESTS ===");
-        
-        testTieneNegativo();
-        testObtenerInorder();
-        testContarHojas();
-        testEsBST();
-        testAltura();
-        
-        System.out.println("=== TESTS FINALIZADOS ===");
-    }
+    private ArbolBinario arbolNormal;
+    private ArbolBinario arbolVacio;
 
-    private static ArbolBinario crearArbolNormal() {
+    // Esta etiqueta hace que este método se corra ANTES de cada test,
+    // garantizando que siempre arranques con un árbol fresco y limpio.
+    @BeforeEach
+    public void setUp() {
+        arbolVacio = new ArbolBinario();
         
+        /*
+               10
+              /  \
+             5    15
+            / \     \
+           -3  8     20
+        */
         Nodo n1 = new Nodo(10);
         Nodo n2 = new Nodo(5);
         Nodo n3 = new Nodo(15);
@@ -30,98 +38,43 @@ public class ArbolBinarioTest {
         n2.setDerecho(n5);
         n3.setDerecho(n6);
 
-        return new ArbolBinario(n1);
+        arbolNormal = new ArbolBinario(n1);
     }
 
-    private static ArbolBinario crearArbolVacio() {
-        return new ArbolBinario();
+    @Test
+    public void testTieneNegativo() {
+        assertTrue(arbolNormal.tieneNegativo(), "El árbol normal debería detectar el -3");
+        assertFalse(arbolVacio.tieneNegativo(), "Un árbol vacío no tiene negativos");
     }
 
-    private static void testTieneNegativo() {
-        System.out.println("\n-- Test 1: tieneNegativo --");
-        try {
-            ArbolBinario arbol = crearArbolNormal();
-            ArbolBinario vacio = crearArbolVacio();
-
-            boolean res1 = arbol.tieneNegativo();
-            boolean res2 = vacio.tieneNegativo();
-
-            if (res1 == true && res2 == false) {
-                System.out.println("[PASÓ] La detección de negativos funciona.");
-            } else {
-                System.out.println("[FALLÓ] Esperaba (true, false) pero obtuve (" + res1 + ", " + res2 + ")");
-            }
-        } catch (Exception e) {
-            System.out.println("[ERROR/EXCEPCIÓN] " + e.getMessage());
-        }
+    @Test
+    public void testObtenerInorder() {
+        List<Integer> esperado = Arrays.asList(-3, 5, 8, 10, 15, 20);
+        List<Integer> resultado = arbolNormal.obtenerInorder();
+        
+        assertEquals(esperado, resultado, "El recorrido InOrder no coincide");
     }
 
-    private static void testObtenerInorder() {
-        System.out.println("\n-- Test 2: obtenerInorder --");
-        try {
-            ArbolBinario arbol = crearArbolNormal();
-            List<Integer> esperado = Arrays.asList(-3, 5, 8, 10, 15, 20);
-            List<Integer> resultado = arbol.obtenerInorder();
-
-            if (esperado.equals(resultado)) {
-                System.out.println("[PASÓ] Recorrido InOrder correcto.");
-            } else {
-                System.out.println("[FALLÓ] Esperaba " + esperado + " pero obtuve " + resultado);
-            }
-        } catch (Exception e) {
-            System.out.println("[ERROR/EXCEPCIÓN] " + e.getMessage());
-        }
+    @Test
+    public void testContarHojas() {
+        assertEquals(3, arbolNormal.contarHojas(), "El árbol normal tiene 3 hojas (-3, 8 y 20)");
+        assertEquals(0, arbolVacio.contarHojas(), "Un árbol vacío tiene 0 hojas");
     }
 
-    private static void testContarHojas() {
-        System.out.println("\n-- Test 3: contarHojas --");
-        try {
-            ArbolBinario arbol = crearArbolNormal();
-            ArbolBinario vacio = crearArbolVacio();
+    @Test
+    public void testEsBST() {
+        assertTrue(arbolNormal.esBST(), "El árbol inicial es un BST válido");
 
-            // Las hojas son -3, 8 y 20 (total 3)
-            if (arbol.contarHojas() == 3 && vacio.contarHojas() == 0) {
-                System.out.println("[PASÓ] Conteo de hojas correcto.");
-            } else {
-                System.out.println("[FALLÓ] Esperaba (3 y 0) pero obtuve (" + arbol.contarHojas() + " y " + vacio.contarHojas() + ")");
-            }
-        } catch (Exception e) {
-            System.out.println("[ERROR/EXCEPCIÓN] " + e.getMessage());
-        }
+        // Rompemos el BST a propósito para ver si el código se da cuenta
+        Nodo nFalso = new Nodo(100);
+        arbolNormal.getRaiz().getIzquierdo().setIzquierdo(nFalso); // Ponemos 100 a la izq del 5
+
+        assertFalse(arbolNormal.esBST(), "Debería dar false porque metimos un 100 a la izquierda del 5");
     }
 
-    private static void testEsBST() {
-        System.out.println("\n-- Test 4: esBST --");
-        try {
-            ArbolBinario arbol = crearArbolNormal();
-            
-            // Rompemos el BST a propósito
-            Nodo nFalso = new Nodo(100);
-            arbol.getRaiz().getIzquierdo().setIzquierdo(nFalso); 
-
-            if (crearArbolNormal().esBST() == true && arbol.esBST() == false) {
-                System.out.println("[PASÓ] Validación BST correcta.");
-            } else {
-                System.out.println("[FALLÓ] El test de BST no devolvió los valores esperados.");
-            }
-        } catch (Exception e) {
-            System.out.println("[ERROR/EXCEPCIÓN] " + e.getMessage());
-        }
-    }
-
-    private static void testAltura() {
-        System.out.println("\n-- Test 5: altura --");
-        try {
-            ArbolBinario arbol = crearArbolNormal();
-            ArbolBinario vacio = crearArbolVacio();
-
-            if (arbol.altura() == 3 && vacio.altura() == 0) {
-                System.out.println("[PASÓ] Cálculo de altura correcto.");
-            } else {
-                System.out.println("[FALLÓ] Esperaba altura (3 y 0) pero obtuve (" + arbol.altura() + " y " + vacio.altura() + ")");
-            }
-        } catch (Exception e) {
-            System.out.println("[ERROR/EXCEPCIÓN] " + e.getMessage());
-        }
+    @Test
+    public void testAltura() {
+        assertEquals(3, arbolNormal.altura(), "La altura del árbol normal debería ser 3");
+        assertEquals(0, arbolVacio.altura(), "La altura de un árbol vacío debería ser 0");
     }
 }
