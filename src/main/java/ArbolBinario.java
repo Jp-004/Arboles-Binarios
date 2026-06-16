@@ -36,24 +36,65 @@ public class ArbolBinario {
      * EJERCICIO 2: Retornar una lista con los valores en recorrido InOrder.
      * ==================================================================== */
     public List<Integer> obtenerInorder() {
-        // TODO: Tu código aquí
-        return new ArrayList<>(); 
+        List lista = new ArrayList<Integer>();
+        
+        obtenerInorder(this.raiz, lista);
+
+        return lista;
     }
 
+    private void obtenerInorder(Nodo nodo, List<Integer> lista) {
+        if (nodo == null) {
+            return;
+        }
+
+        obtenerInorder(nodo.getIzquierdo(), lista);
+
+        lista.add(nodo.getValor());
+
+        obtenerInorder(nodo.getDerecho(), lista);
+    }
     /* ====================================================================
      * EJERCICIO 3: Contar y retornar la cantidad de nodos HOJA.
      * ==================================================================== */
     public int contarHojas() {
-        // TODO: Tu código aquí
-        return 0;
+        
+        int hojas = contarHojas(this.raiz);
+
+        return hojas;
+    }
+
+    private int contarHojas(Nodo nodo) {
+        if(nodo == null) {
+            return 0;
+        } else if (nodo.getIzquierdo() == null && nodo.getDerecho() == null) {
+            return 1;
+        } else {
+            return contarHojas(nodo.getIzquierdo()) + contarHojas(nodo.getDerecho());
+        }
     }
 
     /* ====================================================================
      * EJERCICIO 4: Retornar true si el árbol cumple las reglas de un BST.
      * ==================================================================== */
     public boolean esBST() {
-        // TODO: Tu código aquí
-        return false;
+        return esBST(this.raiz, null, null);
+    }
+
+    private boolean esBST(Nodo nodo, Integer min, Integer max) { 
+        if (nodo == null) {
+            return true;
+        }
+
+        if (min != null && nodo.getValor() <= min) {
+            return false;
+        }
+
+        if (max != null && nodo.getValor() >= max) {
+            return false;
+        }
+
+        return esBST(nodo.getIzquierdo(), min, nodo.getValor()) && esBST(nodo.getDerecho(), nodo.getValor(), max);
     }
 
     /* ====================================================================
@@ -61,7 +102,17 @@ public class ArbolBinario {
      * (Árbol vacío = 0, Árbol con solo raíz = 1)
      * ==================================================================== */
     public int altura() {
-        // TODO: Tu código aquí
-        return 0;
+        return altura(this.raiz);
+    }
+
+    private int altura(Nodo nodo) {
+        if(nodo == null) {
+            return 0;
+        }
+
+        int alturaIzq = altura(nodo.getIzquierdo());
+        int alturaDer = altura(nodo.getDerecho());
+
+        return 1 + Math.max(alturaIzq, alturaDer);
     }
 }
