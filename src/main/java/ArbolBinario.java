@@ -121,8 +121,23 @@ public class ArbolBinario {
      * (Raíz -> Izquierda -> Derecha)
      * ==================================================================== */
     public List<Integer> obtenerPreorder() {
-        // TODO: Tu código aquí
-        return new ArrayList<>(); 
+        List<Integer> lista = new ArrayList<>();
+
+        obtenerPreorder(this.raiz, lista);
+
+        return lista;
+    }
+
+    private void obtenerPreorder(Nodo node, List<Integer> lista) {
+        if (node == null) {
+            return;
+        }
+
+        lista.add(node.getValor());
+
+        obtenerPreorder(node.getIzquierdo(), lista);
+
+        obtenerPreorder(node.getDerecho(), lista);
     }
 
     /* ====================================================================
