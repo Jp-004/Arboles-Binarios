@@ -115,4 +115,29 @@ public class ArbolBinario {
 
         return 1 + Math.max(alturaIzq, alturaDer);
     }
+
+    /* ====================================================================
+     * EJERCICIO 6: Retornar una lista con los valores en recorrido PreOrder.
+     * (Raíz -> Izquierda -> Derecha)
+     * ==================================================================== */
+    public List<Integer> obtenerPreorder() {
+        // TODO: Tu código aquí
+        return new ArrayList<>(); 
+    }
+
+    /* ====================================================================
+     * EJERCICIO 7: Retornar una lista con los valores en recorrido PostOrder.
+     * (Izquierda -> Derecha -> Raíz)
+     * ==================================================================== */
+    public List<Integer> obtenerPostorder() {
+        // TODO: Tu código aquí
+        return new ArrayList<>(); 
+    }
+
+    /* ====================================================================
+     * EJERCICIO 8: Invertir (espejar) el árbol modificando sus punteros.
+     * ==================================================================== */
+    public void espejar() {
+        // TODO: Tu código aquí
+    }
 }

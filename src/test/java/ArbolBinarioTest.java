@@ -1,6 +1,7 @@
 import java.util.Arrays;
 import java.util.List;
 
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -76,5 +77,43 @@ public class ArbolBinarioTest {
     public void testAltura() {
         assertEquals(3, arbolNormal.altura(), "La altura del árbol normal debería ser 3");
         assertEquals(0, arbolVacio.altura(), "La altura de un árbol vacío debería ser 0");
+    }
+
+    @Test
+    public void testObtenerPreorder() {
+        // El recorrido original esperado para el árbol de prueba es:
+        // Raíz(10), va a la izq(5), izq(-3), der(8), sube y va a la der(15), der(20)
+        List<Integer> esperado = Arrays.asList(10, 5, -3, 8, 15, 20);
+        List<Integer> resultado = arbolNormal.obtenerPreorder();
+        
+        assertEquals(esperado, resultado, "El recorrido PreOrder no coincide");
+        assertTrue(arbolVacio.obtenerPreorder().isEmpty(), "El PreOrder de un árbol vacío debe ser una lista vacía");
+    }
+
+    @Test
+    public void testObtenerPostorder() {
+        // El recorrido original esperado para el árbol de prueba es:
+        // Todo a la izq(-3), luego der(8), raíz(5), luego der profunda(20), raíz(15), raíz principal(10)
+        List<Integer> esperado = Arrays.asList(-3, 8, 5, 20, 15, 10);
+        List<Integer> resultado = arbolNormal.obtenerPostorder();
+        
+        assertEquals(esperado, resultado, "El recorrido PostOrder no coincide");
+        assertTrue(arbolVacio.obtenerPostorder().isEmpty(), "El PostOrder de un árbol vacío debe ser una lista vacía");
+    }
+
+    @Test
+    public void testEspejar() {
+        // 1. Espejamos el árbol normal
+        arbolNormal.espejar();
+        
+        // 2. Si el árbol se espejó bien, su recorrido InOrder debe ser 
+        // exactamente al revés que el InOrder normal.
+        List<Integer> inOrderEsperado = Arrays.asList(20, 15, 10, 8, 5, -3);
+        List<Integer> inOrderObtenido = arbolNormal.obtenerInorder();
+        
+        assertEquals(inOrderEsperado, inOrderObtenido, "El árbol no se espejó correctamente. Los punteros no se invirtieron.");
+        
+        // 3. Un árbol vacío no debería tirar error al intentar espejarse
+        assertDoesNotThrow(() -> arbolVacio.espejar(), "El método espejar no debe fallar (NullPointerException) si el árbol está vacío");
     }
 }
