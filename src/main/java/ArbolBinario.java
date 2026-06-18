@@ -145,14 +145,29 @@ public class ArbolBinario {
      * (Izquierda -> Derecha -> Raíz)
      * ==================================================================== */
     public List<Integer> obtenerPostorder() {
-        // TODO: Tu código aquí
-        return new ArrayList<>(); 
+        List<Integer> lista = new ArrayList<>();
+
+        obtenerPostorder(this.raiz, lista);
+
+        return lista;
+    }
+
+    private void obtenerPostorder(Nodo nodo, List<Integer> lista) {
+        if (nodo == null) {
+            return;
+        }
+
+        obtenerPostorder(nodo.getIzquierdo(), lista);
+
+        obtenerPostorder(nodo.getDerecho(), lista);
+
+        lista.add(nodo.getValor());
     }
 
     /* ====================================================================
      * EJERCICIO 8: Invertir (espejar) el árbol modificando sus punteros.
      * ==================================================================== */
     public void espejar() {
-        // TODO: Tu código aquí
+        
     }
 }
