@@ -168,6 +168,19 @@ public class ArbolBinario {
      * EJERCICIO 8: Invertir (espejar) el árbol modificando sus punteros.
      * ==================================================================== */
     public void espejar() {
-        
+        espejar(this.raiz);
+    }
+
+    private void espejar(Nodo nodo) {
+        if (nodo == null) {
+            return;
+        }
+
+        Nodo aux = nodo.getIzquierdo();
+        nodo.setIzquierdo(nodo.getDerecho());
+        nodo.setDerecho(aux);
+
+        espejar(nodo.getIzquierdo());
+        espejar(nodo.getDerecho());
     }
 }
