@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="ArbolAVLTest" tests="3" skipped="0" failures="0" errors="0" timestamp="2026-06-19T02:42:13.374Z" hostname="JUANCHI" time="0.057">
+  <properties/>
+  <testcase name="testRotacionDerecha()" classname="ArbolAVLTest" time="0.029"/>
+  <testcase name="testRotacionIzquierda()" classname="ArbolAVLTest" time="0.001"/>
+  <testcase name="testObtenerAlturaYFactorBalance()" classname="ArbolAVLTest" time="0.001"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

@@ -6,8 +6,11 @@ public class ArbolAVL {
      * Si el nodo es null, su altura es 0. Si no, retorna su atributo altura.
      * ==================================================================== */
     public int obtenerAltura(NodoAVL nodo) {
-        // TODO: Tu código aquí
-        return -1; 
+        if (nodo == null) {
+            return 0;
+        }
+
+        return nodo.getAltura();
     }
 
     /* ====================================================================
@@ -15,8 +18,7 @@ public class ArbolAVL {
      * Fórmula: Altura(Hijo Izquierdo) - Altura(Hijo Derecho)
      * ==================================================================== */
     public int factorBalance(NodoAVL nodo) {
-        // TODO: Tu código aquí
-        return -1;
+        return obtenerAltura(nodo.getIzquierdo()) - obtenerAltura(nodo.getDerecho());
     }
 
     /* ====================================================================
@@ -25,12 +27,15 @@ public class ArbolAVL {
      * la nueva raíz. Retorna la nueva raíz ('x').
      * ==================================================================== */
     public NodoAVL rotacionDerecha(NodoAVL y) {
-        // TODO: Tu código aquí
-        // 1. Guardar las referencias necesarias (x y el subárbol derecho de x)
-        // 2. Hacer los nuevos enlaces (x apunta a y, y adopta el subárbol)
-        // 3. ¡Actualizar las alturas de 'y' y luego de 'x'!
-        // 4. Retornar 'x'
-        return null;
+        NodoAVL x = y.getIzquierdo();
+        NodoAVL T2 = x.getDerecho();
+
+        x.setDerecho(y);
+        y.setIzquierdo(T2);
+
+        y.setAltura(1 + Math.max(obtenerAltura(y.getIzquierdo()), obtenerAltura(y.getDerecho())));
+        x.setAltura(1 + Math.max(obtenerAltura(x.getIzquierdo()), obtenerAltura(x.getDerecho())));
+        return x;
     }
 
     /* ====================================================================
@@ -39,8 +44,15 @@ public class ArbolAVL {
      * la nueva raíz. Retorna la nueva raíz ('y').
      * ==================================================================== */
     public NodoAVL rotacionIzquierda(NodoAVL x) {
-        // TODO: Tu código aquí
-        // Es exactamente el inverso al Ejercicio 3
-        return null;
+        NodoAVL y = x.getDerecho();
+        NodoAVL T1 = y.getIzquierdo();
+
+        y.setIzquierdo(x);
+        x.setDerecho(T1);
+
+        x.setAltura(1 + Math.max(obtenerAltura(x.getIzquierdo()), obtenerAltura(x.getDerecho())));
+        y.setAltura(1 + Math.max(obtenerAltura(y.getIzquierdo()), obtenerAltura(y.getDerecho())));
+
+        return y;
     }
 }
