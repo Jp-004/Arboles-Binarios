@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="ArbolAVLTest" tests="3" skipped="0" failures="0" errors="0" timestamp="2026-06-19T02:42:13.374Z" hostname="JUANCHI" time="0.057">
+<testsuite name="ArbolAVLTest" tests="6" skipped="0" failures="0" errors="0" timestamp="2026-06-19T04:07:37.064Z" hostname="JUANCHI" time="0.051">
   <properties/>
-  <testcase name="testRotacionDerecha()" classname="ArbolAVLTest" time="0.029"/>
+  <testcase name="testExisteYObtenerMinimo()" classname="ArbolAVLTest" time="0.02"/>
+  <testcase name="testInsertarAVL_RotacionDoble()" classname="ArbolAVLTest" time="0.002"/>
+  <testcase name="testInsertarAVL_RotacionSimple()" classname="ArbolAVLTest" time="0.001"/>
+  <testcase name="testRotacionDerecha()" classname="ArbolAVLTest" time="0.002"/>
   <testcase name="testRotacionIzquierda()" classname="ArbolAVLTest" time="0.001"/>
   <testcase name="testObtenerAlturaYFactorBalance()" classname="ArbolAVLTest" time="0.001"/>
   <system-out><![CDATA[]]></system-out>

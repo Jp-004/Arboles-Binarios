@@ -1,6 +1,9 @@
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
 
 public class ArbolAVLTest {
 
@@ -84,5 +87,54 @@ public class ArbolAVLTest {
         assertEquals(1, nuevaRaiz.getIzquierdo().getAltura(), "La altura del 10 debe ser 1");
         assertEquals(1, nuevaRaiz.getDerecho().getAltura(), "La altura del 30 debe ser 1");
         assertEquals(2, nuevaRaiz.getAltura(), "La altura del 20 (nueva raíz) debe ser 2");
+    }
+
+    @Test
+    public void testExisteYObtenerMinimo() {
+        // Armamos un mini BST manualmente para probar
+        NodoAVL raiz = new NodoAVL(20);
+        raiz.setIzquierdo(new NodoAVL(10));
+        raiz.setDerecho(new NodoAVL(30));
+        raiz.getIzquierdo().setIzquierdo(new NodoAVL(5));
+        raiz.getIzquierdo().setDerecho(new NodoAVL(15));
+
+        // Prueba de existencia
+        assertTrue(arbol.existe(raiz, 15), "Debería encontrar el 15");
+        assertTrue(arbol.existe(raiz, 20), "Debería encontrar la raíz (20)");
+        assertFalse(arbol.existe(raiz, 99), "No debería encontrar el 99");
+
+        // Prueba de mínimo
+        assertEquals(5, arbol.obtenerMinimo(raiz), "El valor mínimo del árbol es 5");
+        assertNull(arbol.obtenerMinimo(null), "El mínimo de un árbol vacío debería ser null");
+    }
+
+    @Test
+    public void testInsertarAVL_RotacionSimple() {
+        NodoAVL raiz = null;
+        
+        // Insertamos en orden descendente (provoca tobogán a la izquierda)
+        raiz = arbol.insertar(raiz, 30);
+        raiz = arbol.insertar(raiz, 20);
+        raiz = arbol.insertar(raiz, 10); // ¡Acá debería dispararse la rotación a la derecha!
+
+        // Verificamos que el 20 subió a la raíz
+        assertEquals(20, raiz.getValor(), "La nueva raíz debería ser 20 tras la rotación");
+        assertEquals(10, raiz.getIzquierdo().getValor(), "El hijo izquierdo debe ser 10");
+        assertEquals(30, raiz.getDerecho().getValor(), "El hijo derecho debe ser 30");
+    }
+
+    @Test
+    public void testInsertarAVL_RotacionDoble() {
+        NodoAVL raiz = null;
+        
+        // Insertamos formando un "codo" (Izquierda-Derecha)
+        raiz = arbol.insertar(raiz, 30);
+        raiz = arbol.insertar(raiz, 10);
+        raiz = arbol.insertar(raiz, 20); // ¡Acá debe haber rotación doble!
+
+        // Verificamos que el árbol quedó perfectamente balanceado
+        assertEquals(20, raiz.getValor(), "La nueva raíz debería ser 20 tras la rotación doble");
+        assertEquals(10, raiz.getIzquierdo().getValor(), "El hijo izquierdo debe ser 10");
+        assertEquals(30, raiz.getDerecho().getValor(), "El hijo derecho debe ser 30");
     }
 }
